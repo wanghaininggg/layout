@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style> 
+    .menu{
+        position: absolute; top:48px;left:200px;bottom:0;border:1px solid red;width:200px;
+    }
+    .menu2{
+        position: fixed;
+        top: 0;
+    }
+    .unactive{
+        display: block;
+        height: 30px;
+        background-color: darkseagreen;
+        text-decoration: none;
+        border-bottom: 1px solid lightblue;    
+    }
+    .active{
+        background-color: lightcoral;
+    }
+    </style>
+</head>
+<body style="margin:0;">
+    <div style="height:48px; width:100%;background-color:aqua;"></div>
+    <div class="menu">
+        <a m="1" class="unactive" href="#">标签一</a>
+        <a m="2" class="unactive" href="#">标签二</a>
+        <a m="3" class="unactive" href="#">标签三</a>
+        <a m="4" class="unactive" href="#">标签四</a>
+    </div>
+    <div class="content" style="position:absolute; top:48px;left:403px;right:200px;buttom:0;border:1px solid blue;">
+        <div a="1" style="height: 500px; background-color:cadetblue"></div>
+        <div a="2" style="height: 600px; background-color:darkblue"></div>
+        <div a="3" style="height: 700px; background-color:red"></div>
+        <div a="4" style="height: 900px; background-color:yellow"></div>
+    </div>
+    <div onclick="returnTop()" style="position:fixed;right:20px;bottom:20px;width:40px;height:40px;cursor:pointer;background-color:cornflowerblue; border:1px solid blue">返回顶部</div>
+    <script src="jquery-3.3.1.js"></script>
+    <script>
+        function returnTop() {
+            $(document).scrollTop(0);
+        }
+        window.onscroll = function (){
+            var scrollTop = $(document).scrollTop();
+            if(scrollTop >= 40){
+                $(".menu").addClass("menu2");
+            }else{
+                $(".menu").removeClass("menu2");
+                $(".menu a").removeClass("active");
+            }
+             $(".content").children().each(function () {
+                var eleTop = $(this).offset().top;
+                var winTop = eleTop - scrollTop;
+                var winButtomTop = eleTop + $(this).height() - scrollTop; 
+                var docHeight = $(document).height();
+                var winHeight = $(window).height();
+                if(docHeight-winHeight == scrollTop){
+                    $('.menu a:last').addClass('active').siblings().removeClass('active');
+                }else{
+                    if(winTop<=0 && winButtomTop>0){
+                    var a = $(this).attr('a');
+                    $(".menu a[m='"+a+"']").addClass("active").siblings().removeClass("active");
+                    return;
+                }
+                }
+            })
+        }
+    
+    </script>
+     
+</body>
+</html>
